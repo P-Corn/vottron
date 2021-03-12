@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import AddStudentForm from './AddStudentForm';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -36,10 +37,7 @@ export default function AddStudentModal({openModal, handleClose}) {
         }}
       >
         <Fade in={openModal}>
-          <div className={classes.paper}>
-            <h2 id="transition-modal-title">Transition modal</h2>
-            <p id="transition-modal-description">react-transition-group animates me.</p>
-          </div>
+          <AddStudentForm handleClose={handleClose} />
         </Fade>
       </Modal>
     </div>

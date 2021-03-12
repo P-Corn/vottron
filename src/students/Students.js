@@ -12,7 +12,7 @@ function Students() {
         <Container 
           maxWidth='md'
         >
-          <Grid 
+          {/* <Grid 
             container 
             justify="space-between"
             alignItems="center"
@@ -29,7 +29,7 @@ function Students() {
                 Add Student
               </Button>
             </Grid>
-          </Grid>
+          </Grid> */}
           <StudentsTable />
         </Container>
       </div>
