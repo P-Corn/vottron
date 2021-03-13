@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useEffect} from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -22,33 +22,26 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import AddStudentModal from "./AddStudentModal";
 import Axios from 'axios';
 
-const getStudents = () => {
+const rows = [];
+
+function getStudents() {
   Axios.get("http://localhost:3001/students").then((response) => {
-    console.log(response.data);
+    const students = response.data;
+    for(let student of students){
+      let studentInfo = createData(student.firstname, student.lastname, student.course, student.studentdob, student.enrolldate);
+      rows.push(studentInfo);
+      console.log(studentInfo);
+    }
   })
 }
 
-getStudents();
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(firstName, lastName, course, age, enrollDate) {
+  const name = firstName + " " + lastName;
+  const active = "Yes";
+  return { name, course, active, age, enrollDate };
 }
 
-const rows = [
-  createData("Jimmy McGill", "Python", "Yes", 46, "12/1/2020"),
-  createData("Saul Goodman", "Coding and Robotics", "Yes", 52, "12/1/2020"),
-  createData("Kim Wexler", "Python", "Yes", 24, "12/1/2020"),
-  createData("Fred Frad", "Minecraft", "Yes", 24, "12/1/2020"),
-  createData("Skylyn Barron-Garcia", "Coding Fundementals", "Yes", 24, "12/1/2020"),
-  createData("Honeycomb", 408, 3.2, 87, 6.5),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Jelly Bean", 375, 0.0, 94, 0.0),
-  createData("KitKat", 518, 26.0, 65, 7.0),
-  createData("Lollipop", 392, 0.2, 98, 0.0),
-  createData("Marshmallow", 318, 0, 81, 2.0),
-  createData("Nougat", 360, 19.0, 9, 37.0),
-  createData("Oreo", 437, 18.0, 63, 4.0)
-];
+getStudents();
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -83,11 +76,11 @@ const headCells = [
     disablePadding: false,
     label: "Name"
   },
-  { id: "calories", numeric: false, disablePadding: false, label: "Course" },
-  { id: "fat", numeric: true, disablePadding: false, label: "Active" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Age" },
+  { id: "course", numeric: false, disablePadding: false, label: "Course" },
+  { id: "active", numeric: true, disablePadding: false, label: "Active" },
+  { id: "dob", numeric: true, disablePadding: false, label: "Age" },
   {
-    id: "protein",
+    id: "enrollDate",
     numeric: true,
     disablePadding: false,
     label: "Date Enrolled"
@@ -243,7 +236,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function StudentsTable() {
+function StudentsTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -343,10 +336,10 @@ export default function StudentsTable() {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="left">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="left">{row.course}</TableCell>
+                      <TableCell align="right">{row.active}</TableCell>
+                      <TableCell align="right">{row.dob}</TableCell>
+                      <TableCell align="right">{row.enrollDate}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -371,3 +364,5 @@ export default function StudentsTable() {
     </div>
   );
 }
+
+export default StudentsTable;
