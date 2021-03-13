@@ -20,6 +20,15 @@ import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import AddStudentModal from "./AddStudentModal";
+import Axios from 'axios';
+
+const getStudents = () => {
+  Axios.get("http://localhost:3001/students").then((response) => {
+    console.log(response.data);
+  })
+}
+
+getStudents();
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };

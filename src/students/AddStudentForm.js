@@ -1,18 +1,39 @@
 import {React, useState} from 'react';
 import {TextField, Grid, Paper, Typography, Button} from '@material-ui/core';
+import Axios from 'axios';
 
 
 function AddStudentForm({handleClose}) {
 
+    const dateObj = new Date();
+
+    const createId = () => {
+        return 1;
+    }
+
+    const [studentId, setStudentId] = useState(createId);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [notes, setNotes] = useState("");
+    const [adminNotes, setAdminNotes] = useState("");
     const [course, setCourse] = useState("");
     const [dob, setDob] = useState("");
+    const [enrollDate] = useState(`${dateObj.getFullYear()}/${dateObj.getDate()}/${dateObj.getDay()}`);
+
+    const addStudent = () => {
+        Axios.post('http://localhost:3001/addstudent', {
+            studentId,
+            firstName,
+            lastName,
+            adminNotes,
+            course,
+            dob,
+            enrollDate
+        }).then(() => console.log("added student"))
+    }
 
     const handleSubmit = (e) => {
-        console.log(firstName, lastName, notes, course, dob);
         handleClose();
+        addStudent();
         e.preventDefault();
     }
 
@@ -68,8 +89,8 @@ function AddStudentForm({handleClose}) {
                         fullWidth={true} 
                         id="Notes" 
                         label="Notes"
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
+                        value={adminNotes}
+                        onChange={(e) => setAdminNotes(e.target.value)}
                     />
                 </Grid>
             </Grid>
