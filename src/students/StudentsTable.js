@@ -24,14 +24,20 @@ import Axios from 'axios';
 
 const getStudents = () => {
   Axios.get("http://localhost:3001/students").then((response) => {
-    console.log(response.data);
+    return response.data;
+  }).then((data) =>{
+    for(let student in data) {
+      // rows[student] = createData(data[student.firstname],)
+    }
   })
 }
 
-getStudents();
+// function createData(name, calories, fat, carbs, protein) {
+//   return { name, calories, fat, carbs, protein };
+// }
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(firstName, course, studentId, age, enrolldate) {
+  return { firstName, course, studentId, age, enrolldate };
 }
 
 const rows = [
@@ -83,11 +89,11 @@ const headCells = [
     disablePadding: false,
     label: "Name"
   },
-  { id: "calories", numeric: false, disablePadding: false, label: "Course" },
-  { id: "fat", numeric: true, disablePadding: false, label: "Active" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Age" },
+  { id: "course", numeric: false, disablePadding: false, label: "Course" },
+  { id: "active", numeric: true, disablePadding: false, label: "Active" },
+  { id: "age", numeric: true, disablePadding: false, label: "Age" },
   {
-    id: "protein",
+    id: "dateEnrolled",
     numeric: true,
     disablePadding: false,
     label: "Date Enrolled"
@@ -250,6 +256,8 @@ export default function StudentsTable() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  getStudents();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
