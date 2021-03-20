@@ -8,7 +8,7 @@ function AddStudentForm({handleClose}) {
     const dateObj = new Date();
 
     const createId = () => {
-        return 1;
+        return 6;
     }
 
     const [studentId, setStudentId] = useState(createId);
@@ -17,10 +17,10 @@ function AddStudentForm({handleClose}) {
     const [adminNotes, setAdminNotes] = useState("");
     const [course, setCourse] = useState("");
     const [dob, setDob] = useState("");
-    const [enrollDate] = useState(`${dateObj.getFullYear()}/${dateObj.getDate()}/${dateObj.getDay()}`);
+    const [enrollDate] = useState("2021/01/01");
 
     const addStudent = () => {
-        Axios.post('http://localhost:3001/addstudent', {
+        Axios.post('http://localhost:3001/students', {
             studentId,
             firstName,
             lastName,
@@ -34,7 +34,7 @@ function AddStudentForm({handleClose}) {
     const handleSubmit = (e) => {
         handleClose();
         addStudent();
-        e.preventDefault();
+        // e.preventDefault();
     }
 
   return (

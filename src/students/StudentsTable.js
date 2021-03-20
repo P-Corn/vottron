@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -22,39 +22,6 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import AddStudentModal from "./AddStudentModal";
 import Axios from 'axios';
 
-const getStudents = () => {
-  Axios.get("http://localhost:3001/students").then((response) => {
-    return response.data;
-  }).then((data) =>{
-    for(let student in data) {
-      // rows[student] = createData(data[student.firstname],)
-    }
-  })
-}
-
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
-// }
-
-function createData(firstName, course, studentId, age, enrolldate) {
-  return { firstName, course, studentId, age, enrolldate };
-}
-
-const rows = [
-  createData("Jimmy McGill", "Python", "Yes", 46, "12/1/2020"),
-  createData("Saul Goodman", "Coding and Robotics", "Yes", 52, "12/1/2020"),
-  createData("Kim Wexler", "Python", "Yes", 24, "12/1/2020"),
-  createData("Fred Frad", "Minecraft", "Yes", 24, "12/1/2020"),
-  createData("Skylyn Barron-Garcia", "Coding Fundementals", "Yes", 24, "12/1/2020"),
-  createData("Honeycomb", 408, 3.2, 87, 6.5),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Jelly Bean", 375, 0.0, 94, 0.0),
-  createData("KitKat", 518, 26.0, 65, 7.0),
-  createData("Lollipop", 392, 0.2, 98, 0.0),
-  createData("Marshmallow", 318, 0, 81, 2.0),
-  createData("Nougat", 360, 19.0, 9, 37.0),
-  createData("Oreo", 437, 18.0, 63, 4.0)
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -256,8 +223,27 @@ export default function StudentsTable() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rows, setRows] = React.useState([]);
 
-  getStudents();
+  const getStudents = () => {
+    Axios.get("http://localhost:3001/students").then((response) => {
+      const data = response.data;
+      // let dataArray = [...rows];
+      setRows([...data]);
+    })
+  }
+
+  useEffect (() => {
+    getStudents();
+  },[])
+  
+  // function createData(name, calories, fat, carbs, protein) {
+  //   return { name, calories, fat, carbs, protein };
+  // }
+  
+  // function createData(name, course, studentId, age, enrolldate) {
+  //   return { name, course, studentId, age, enrolldate };
+  // }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -349,12 +335,12 @@ export default function StudentsTable() {
                         id={labelId}
                         scope="row"
                       >
-                        {row.name}
+                        {row.firstname}
                       </TableCell>
-                      <TableCell align="left">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="left">{row.course}</TableCell>
+                      <TableCell align="right">{row.studentid}</TableCell>
+                      <TableCell align="right">{row.studentdob}</TableCell>
+                      <TableCell align="right">{row.enrolldate}</TableCell>
                     </TableRow>
                   );
                 })}

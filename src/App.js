@@ -4,6 +4,7 @@ import './App.css';
 import Nav from './Nav';
 import Students from './students/Students'
 import Users from './users/Users'
+import Courses from './courses/Courses'
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Nav />
         <Switch>
           {/* <Home path="/" exact component={Home}/> */}
+          <Route path="/courses" component={Courses}/>
           <Route path="/students" component={Students}/>
           <Route path="/users" exact component={Users}/>
         </Switch>
