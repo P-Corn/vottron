@@ -1,13 +1,41 @@
-import React from 'react';
-import {Container, Typography, Button, Grid, Icon} from '@material-ui/core'
+import React, {useState, useEffect} from 'react';
+import {Container, Typography, Button, Grid} from '@material-ui/core';
+import CourseCard from './CourseCard';
+import './Courses.css';
+import AddCourseModal from './AddCourseModal';
+import Axios from 'axios';
+import {BrowserRouter as Router, Link, Route } from 'react-router-dom';
 
 
 function Courses() {
+
+  const [openModal, setOpenModal] = React.useState(false);
+  const [courseData, setCourseData] = React.useState([])
+  
+  const handleOpen = () => {
+    setOpenModal(true);
+  }
+
+  const handleClose = () => {
+    setOpenModal(false);
+  }
+
+  const getCourse = () => {
+    Axios.get("http://localhost:3001/courses").then((response) => {
+      const data = response.data;
+      setCourseData([...data]);
+    })
+  }
+
+  useEffect (() => {
+    getCourse();
+  }, [])
+
   return (
     <div className="pageBg">
       <div className="content-wrapper">
         <Container 
-          maxWidth='md'
+          maxWidth='lg'
         >
           <Grid 
             justify="space-between" 
@@ -19,12 +47,36 @@ function Courses() {
             </Typography>
             <Button
             variant="contained"
-            color="primary">
+            color="primary"
+            onClick={handleOpen}
+            >
               Add course
             </Button>
           </Grid>
+
+          <AddCourseModal
+            openModal={openModal}
+            handleClose={handleClose}
+          ></AddCourseModal>
+
           <hr></hr>
-          
+
+          <Router>
+            <Grid
+            container
+            spacing={6}
+            >
+              {courseData.map((course) => 
+                <Grid xs={12} sm={6} md={4} item key={course.courseid}>
+                  <CourseCard
+                    courseTitle={course.coursetitle}
+                    courseDesc={course.coursedescription}
+                    courseImg={course.courseimage}
+                  ></CourseCard>
+                </Grid>
+              )}
+            </Grid>
+          </Router>
         </Container>
       </div>
     </div>

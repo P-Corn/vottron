@@ -10,7 +10,7 @@ function Students() {
     <div className="pageBg">
       <div className="content-wrapper">
         <Container 
-          maxWidth='md'
+          maxWidth='lg'
         >
           {/* <Grid 
             container 
