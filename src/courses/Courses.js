@@ -60,8 +60,6 @@ function Courses() {
           ></AddCourseModal>
 
           <hr></hr>
-
-          <Router>
             <Grid
             container
             spacing={6}
@@ -69,7 +67,7 @@ function Courses() {
               {courseData.map((course) => 
                 <Grid xs={12} sm={6} md={4} item key={course.courseid}>
                   <CourseCard
-                    courseId={course.courseId}
+                    courseId={course.courseid}
                     courseTitle={course.coursetitle}
                     courseDesc={course.coursedescription}
                     courseImg={course.courseimage}
@@ -77,7 +75,6 @@ function Courses() {
                 </Grid>
               )}
             </Grid>
-          </Router>
         </Container>
       </div>
     </div>

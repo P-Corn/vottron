@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card, ContainerCard, CardActionArea, CardContent, CardMedia, Typography} from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link , withRouter} from 'react-router-dom';
 import Students from '../students/Students'
 
 
@@ -8,15 +8,13 @@ function CourseCard({courseId, courseTitle, courseDesc, courseImg, history}) {
   return (
     <Card>
         <CardActionArea>
-            <Link>
             <CardMedia
                 component="img"
                 height="200"
                 image={courseImg}
                 title="Contemplative Reptile"
-                onClick={() => history.push('/courses')}
+                onClick={() => history.push(`/courses/${courseId}`)}
             />
-            </Link>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                 {courseTitle}
@@ -30,4 +28,4 @@ function CourseCard({courseId, courseTitle, courseDesc, courseImg, history}) {
   );
 }
 
-export default CourseCard;
+export default withRouter(CourseCard);

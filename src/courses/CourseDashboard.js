@@ -1,5 +1,6 @@
 import React from 'react';
 import {Container, Typography, Button, Grid} from '@material-ui/core';
+import {withRouter} from 'react-router-dom';
 
 
 function CourseDashboard() {
