@@ -1,19 +1,19 @@
 import React from 'react';
-import {Card, ContainerCard, CardActionArea, CardContent, CardMedia, Typography} from '@material-ui/core';
-import { Link , withRouter} from 'react-router-dom';
-import Students from '../students/Students'
+import {Card, CardActionArea, CardContent, CardMedia, Typography} from '@material-ui/core';
+import { withRouter} from 'react-router-dom';
 
 
 function CourseCard({courseId, courseTitle, courseDesc, courseImg, history}) {
   return (
     <Card>
-        <CardActionArea>
+        <CardActionArea
+            onClick={() => history.push(`/courses/${courseId}`)}
+        >
             <CardMedia
                 component="img"
                 height="200"
                 image={courseImg}
                 title="Contemplative Reptile"
-                onClick={() => history.push(`/courses/${courseId}`)}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">

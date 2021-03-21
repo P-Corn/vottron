@@ -1,9 +1,12 @@
 import React from 'react';
 import {Container, Typography, Button, Grid} from '@material-ui/core';
-import {withRouter} from 'react-router-dom';
+import { useRouteMatch } from "react-router-dom";
 
 
 function CourseDashboard() {
+
+  const url = useRouteMatch("/courses/:id");
+  const id = url.params.id;
 
   return (
     <div className="pageBg">
@@ -17,7 +20,7 @@ function CourseDashboard() {
             container
           >
             <Typography variant="h4">
-              Courses
+              Courses {id}
             </Typography>
             <Button
             variant="contained"
