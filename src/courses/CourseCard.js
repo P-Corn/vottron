@@ -1,18 +1,20 @@
 import React from 'react';
 import {Card, ContainerCard, CardActionArea, CardContent, CardMedia, Typography} from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import Students from '../students/Students'
 
 
-function CourseCard({courseTitle, courseDesc, courseImg, history}) {
+function CourseCard({courseId, courseTitle, courseDesc, courseImg, history}) {
   return (
     <Card>
         <CardActionArea>
-            <Link to='/students'>
+            <Link>
             <CardMedia
                 component="img"
                 height="200"
                 image={courseImg}
                 title="Contemplative Reptile"
+                onClick={() => history.push('/courses')}
             />
             </Link>
             <CardContent>

@@ -69,6 +69,7 @@ function Courses() {
               {courseData.map((course) => 
                 <Grid xs={12} sm={6} md={4} item key={course.courseid}>
                   <CourseCard
+                    courseId={course.courseId}
                     courseTitle={course.coursetitle}
                     courseDesc={course.coursedescription}
                     courseImg={course.courseimage}

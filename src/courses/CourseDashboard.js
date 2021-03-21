@@ -2,7 +2,7 @@ import React from 'react';
 import {Container, Typography, Button, Grid} from '@material-ui/core';
 
 
-function Courses() {
+function CourseDashboard() {
 
   return (
     <div className="pageBg">
@@ -21,7 +21,6 @@ function Courses() {
             <Button
             variant="contained"
             color="primary"
-            onClick={handleOpen}
             >
               Add course
             </Button>
@@ -32,4 +31,4 @@ function Courses() {
   );
 }
 
-export default Courses;
+export default CourseDashboard;
