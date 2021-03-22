@@ -11,11 +11,11 @@ function CourseCard({courseId, courseTitle, courseDesc, courseImg, history}) {
         >
             <CardMedia
                 component="img"
-                height="200"
+                height="190"
                 image={courseImg}
                 title="Contemplative Reptile"
             />
-            <CardContent>
+            <CardContent className="card-content">
                 <Typography gutterBottom variant="h5" component="h2">
                 {courseTitle}
                 </Typography>

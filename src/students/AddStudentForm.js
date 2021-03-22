@@ -8,7 +8,7 @@ function AddStudentForm({handleClose}) {
     const dateObj = new Date();
 
     const createId = () => {
-        return 6;
+        return 7;
     }
 
     const [studentId, setStudentId] = useState(createId);

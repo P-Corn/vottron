@@ -47,7 +47,7 @@ const Nav = ({history}) => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Photos
+            Vottron
           </Typography>
             <div className="navLinks">
               {isMobile ? (

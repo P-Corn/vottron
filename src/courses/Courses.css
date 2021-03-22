@@ -5,3 +5,7 @@ hr {
 .form-container {
     min-width: 500px;
 }
+
+.card-content {
+    min-height: 90px;
+}

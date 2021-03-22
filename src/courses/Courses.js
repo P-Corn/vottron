@@ -62,7 +62,7 @@ function Courses() {
           <hr></hr>
             <Grid
             container
-            spacing={6}
+            spacing={9}
             >
               {courseData.map((course) => 
                 <Grid xs={12} sm={6} md={4} item key={course.courseid}>
