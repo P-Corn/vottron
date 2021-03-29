@@ -1,5 +1,5 @@
 hr {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .form-container {
@@ -8,4 +8,25 @@ hr {
 
 .card-content {
     min-height: 90px;
+}
+
+.dashboard-label__img {
+    padding-bottom: 8px;
+}
+
+.dashboard-details-container {
+    padding-bottom: 20px;
+}
+
+.course-dashboard-paper {
+    padding: 40px 40px 0 40px;
+    height: 100%;
+}
+
+.dashboard-card-title {
+    padding-bottom: 20px;
+}
+
+.cancel-button {
+    padding-right: 30px;
 }

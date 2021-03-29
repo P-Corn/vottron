@@ -4,13 +4,12 @@ import CourseCard from './CourseCard';
 import './Courses.css';
 import AddCourseModal from './AddCourseModal';
 import Axios from 'axios';
-import {BrowserRouter as Router, Link, Route } from 'react-router-dom';
 
 
 function Courses() {
 
-  const [openModal, setOpenModal] = React.useState(false);
-  const [courseData, setCourseData] = React.useState([])
+  const [openModal, setOpenModal] = useState(false);
+  const [courseData, setCourseData] = useState([])
   
   const handleOpen = () => {
     setOpenModal(true);

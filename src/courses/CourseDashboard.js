@@ -1,12 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {Container, Typography, Button, Grid} from '@material-ui/core';
+import {Container, Typography, Paper, Grid, IconButton, Fade} from '@material-ui/core';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useRouteMatch } from "react-router-dom";
 import Axios from 'axios';
+import CourseInfo from './CourseInfo'
+import CourseInfoEdit from './CourseInfoEdit'
+import {withRouter} from 'react-router-dom';
+import CourseActivities from './CourseActivities';
 
 
-function CourseDashboard() {
+function CourseDashboard({history}) {
 
-  const [courseData, setCourseData] = useState({})
+  const [courseData, setCourseData] = useState({});
+  const [activityData, setActivityData] = useState([])
+  const [editCourse, setEditCourse] = useState(false);
 
   const url = useRouteMatch("/courses/:id");
   const id = url.params.id;
@@ -17,8 +24,8 @@ function CourseDashboard() {
         id
       }
     }).then((response) => {
-      setCourseData({...response.data[0]});
-      console.log(courseData);
+      setActivityData([...response.data[1]]);
+      setCourseData({...response.data[0][0]});
     })
   }
 
@@ -31,19 +38,59 @@ function CourseDashboard() {
           maxWidth='lg'
         >
           <Grid 
-            justify="space-between" 
+            justify="flex-start" 
             alignItems="center" 
             container
           >
-            <Typography variant="h4">
-              {courseData.coursetitle}
-            </Typography>
-            <Button
-            variant="contained"
+            <IconButton
             color="primary"
+            onClick={() => history.replace('/courses')}
             >
-              Add course
-            </Button>
+              <ArrowBackIcon fontSize="large"/>
+            </IconButton>
+            <Typography variant="h4">
+              Course Dashboard
+            </Typography>
+          </Grid>
+          <hr></hr>
+          <Grid
+            container
+            spacing={10}
+          >
+            <Grid
+              xs={12}
+              md={5}
+              item
+              className="dashboard-grid-item"
+            >
+              {editCourse === true ?
+              <CourseInfoEdit
+                id={courseData.courseid}
+                title={courseData.coursetitle}
+                desc={courseData.coursedescription}
+                img={courseData.courseimage}
+                setEditCourse={setEditCourse}
+                getCourseDetails={getCourseDetails}
+              />
+              :
+              <CourseInfo
+                courseId={courseData.courseid}
+                courseTitle={courseData.coursetitle}
+                courseDesc={courseData.coursedescription}
+                courseImg={courseData.courseimage}
+                setEditCourse={setEditCourse}
+              />}
+            </Grid>
+            <Grid
+              xs={12}
+              md={7}
+              item
+              className="dashboard-grid-item"
+            >
+                <CourseActivities
+                  activityData={activityData}
+                />
+            </Grid>
           </Grid>
         </Container>
       </div>
@@ -51,4 +98,4 @@ function CourseDashboard() {
   );
 }
 
-export default CourseDashboard;
+export default withRouter(CourseDashboard);
