@@ -11,7 +11,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { Icon } from '@material-ui/core';
+import { Icon, withTheme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  navLink: {
+    color: "white",
   }
 }));
 
@@ -46,7 +49,7 @@ const Nav = ({history}) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h4" className={classes.title}>
             Vottron
           </Typography>
             <div className="navLinks">
@@ -76,16 +79,17 @@ const Nav = ({history}) => {
                 open={open}
                 onClose={() => setAnchorEl(null)}
               >
+                <MenuItem onClick={() => handleMenuClick('/schedule')}>Schedule</MenuItem>
+                <MenuItem onClick={() => handleMenuClick('/courses')}>Courses</MenuItem>
                 <MenuItem onClick={() => handleMenuClick('/students')}>Students</MenuItem>
-                <MenuItem onClick={() => handleMenuClick('/users')}>Users</MenuItem>
               </Menu>
               </>)
               : (
                 <>
-                <ButtonGroup className="navLinks">
-                  <Button onClick={() => history.push('/schedule')}>Schedule</Button>
-                  <Button onClick={() => history.push('/courses')}>Courses</Button>
-                  <Button onClick={() => history.push('/students')}>Students</Button>
+                <ButtonGroup>
+                  <Button className={classes.navLink} variant="text" onClick={() => history.push('/schedule')}>Schedule</Button>
+                  <Button className={classes.navLink} variant="text" onClick={() => history.push('/courses')}>Courses</Button>
+                  <Button className={classes.navLink} variant="text" onClick={() => history.push('/students')}>Students</Button>
                 </ButtonGroup>
                 </>
               )}
