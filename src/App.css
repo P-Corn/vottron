@@ -1,6 +1,6 @@
 .pageBg{
   background-color: rgb(245, 245, 245);
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .content-wrapper {

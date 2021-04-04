@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Typography, Button, Grid} from '@material-ui/core';
+import {Container, Typography, Button, Grid, Box} from '@material-ui/core';
 import CourseCard from './CourseCard';
+import Add from '@material-ui/icons/Add';
 import './Courses.css';
 import AddCourseModal from './AddCourseModal';
 import Axios from 'axios';
@@ -48,8 +49,9 @@ function Courses() {
             variant="contained"
             color="primary"
             onClick={handleOpen}
+            startIcon={<Add></Add>}
             >
-              Add course
+              Add
             </Button>
           </Grid>
 

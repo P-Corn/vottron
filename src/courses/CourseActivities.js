@@ -1,11 +1,40 @@
 import React, {useState, useEffect} from 'react';
 import {Paper, Typography, Button, Grid} from '@material-ui/core';
 import AddActivityModal from './AddActivityModal';
-import Axios from 'axios';
+import ActivityList from './ActivityList';
+import ActivityEdit from './ActivityEdit';
+import AddCircleIcon from '@material-ui/icons/Add';
+import Axios from 'axios'
+import { useRouteMatch } from "react-router-dom";
 
-function CourseActivities({activityData}) {
+function CourseActivities() {
+
+  const url = useRouteMatch("/courses/:id");
+  const id = url.params.id;
 
   const [openModal, setOpenModal] = useState(false);
+  const [editActivity, setEditActivity] = useState(false);
+  const [clickedActivity, setClickedActivity] = useState({})
+  const [activityData, setActivityData] = useState([])
+
+  const contentControl = (activity) => {
+    setEditActivity(!editActivity)
+    setClickedActivity(activity)
+    console.log(activity.activityorder)
+  }
+
+  const getActivities = (id) => {
+    Axios.get('http://localhost:3001/activities/:id', {
+      params: {
+        id
+      }
+    }).then((response) => {
+      console.log(response)
+      setActivityData([ ...response.data]);
+    })
+  }
+
+  useEffect(() => getActivities(id), [])
 
   const handleOpen = () => {
     setOpenModal(true);
@@ -14,13 +43,10 @@ function CourseActivities({activityData}) {
   const handleClose = () => {
     setOpenModal(false);
   }
-
-  console.log(activityData)
   
-
   return (
     <Paper 
-    elevation={4}
+    elevation={2}
     className="course-dashboard-paper">
       <Grid
       container
@@ -34,7 +60,7 @@ function CourseActivities({activityData}) {
           variant="h5"
           color="primary"
           >
-            Course Activities
+            Activities
           </Typography>
         </Grid>
         <Grid
@@ -44,8 +70,9 @@ function CourseActivities({activityData}) {
           color="primary"
           variant="contained"
           onClick={handleOpen}
+          startIcon={<AddCircleIcon/>}
           >
-            Add Activity
+            Add
           </Button>
         </Grid>
       </Grid>
@@ -53,13 +80,21 @@ function CourseActivities({activityData}) {
       <AddActivityModal
         openModal={openModal}
         handleClose={handleClose}
+        activityData={activityData}
+        getActivities={getActivities}
       />
-
-      <ul>
-        {activityData.map((activity) => (
-          <li>{activity.activitytitle} / {activity.activitydescription}<hr></hr></li>
-        ))}
-      </ul>
+      {editActivity === true ?
+        <ActivityEdit
+        setEditActivity={setEditActivity}
+        clickedActivity={clickedActivity}
+        getActivities={getActivities}
+        />
+        :
+        <ActivityList 
+        contentControl={contentControl}
+        activityData={activityData}
+        />
+      }
     </Paper>
   ); 
 }

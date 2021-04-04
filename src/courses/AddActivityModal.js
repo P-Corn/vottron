@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddActivityModal({openModal, handleClose}) {
+export default function AddActivityModal({openModal, handleClose, activityData, getActivities}) {
   const classes = useStyles();
 
   return (
@@ -37,7 +37,7 @@ export default function AddActivityModal({openModal, handleClose}) {
         }}
       >
         <Fade in={openModal}>
-          <AddActivityForm handleClose={handleClose} />
+          <AddActivityForm getActivities={getActivities} activityData={activityData} handleClose={handleClose} />
         </Fade>
       </Modal>
     </div>

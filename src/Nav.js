@@ -83,9 +83,9 @@ const Nav = ({history}) => {
               : (
                 <>
                 <ButtonGroup className="navLinks">
+                  <Button onClick={() => history.push('/schedule')}>Schedule</Button>
                   <Button onClick={() => history.push('/courses')}>Courses</Button>
                   <Button onClick={() => history.push('/students')}>Students</Button>
-                  <Button onClick={() => history.push('/users')}>Users</Button>
                 </ButtonGroup>
                 </>
               )}

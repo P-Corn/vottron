@@ -1,11 +1,24 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './Students.css'
 import AddIcon from '@material-ui/icons/Add';
 import {Container, Typography, Button, Grid, Icon} from '@material-ui/core'
 import StudentsTable from './StudentsTable';
+import Axios from 'axios'; 
 
 
 function Students() {
+
+  const [courseData, setCourseData] = useState([]);
+
+  const getCourseData = () => {
+    Axios.get('http://localhost:3001/courses/coursetitles')
+    .then((response) => {
+      setCourseData([...response.data]);
+    })
+  }
+
+  useEffect(() => {getCourseData()}, []);
+
   return (
     <div className="pageBg">
       <div className="content-wrapper">
@@ -30,7 +43,7 @@ function Students() {
               </Button>
             </Grid>
           </Grid> */}
-          <StudentsTable />
+            <StudentsTable courseData={courseData}/>
         </Container>
       </div>
     </div>

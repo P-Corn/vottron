@@ -12,7 +12,6 @@ import CourseActivities from './CourseActivities';
 function CourseDashboard({history}) {
 
   const [courseData, setCourseData] = useState({});
-  const [activityData, setActivityData] = useState([])
   const [editCourse, setEditCourse] = useState(false);
 
   const url = useRouteMatch("/courses/:id");
@@ -24,8 +23,7 @@ function CourseDashboard({history}) {
         id
       }
     }).then((response) => {
-      setActivityData([...response.data[1]]);
-      setCourseData({...response.data[0][0]});
+      setCourseData({...response.data[0]});
     })
   }
 
@@ -49,17 +47,20 @@ function CourseDashboard({history}) {
               <ArrowBackIcon fontSize="large"/>
             </IconButton>
             <Typography variant="h4">
-              Course Dashboard
+              Course Settings
             </Typography>
           </Grid>
           <hr></hr>
           <Grid
             container
-            spacing={10}
+            spacing={6}
+            justify="center"
           >
             <Grid
               xs={12}
-              md={5}
+              sm={12}
+              md={7}
+              lg={5}
               item
               className="dashboard-grid-item"
             >
@@ -83,13 +84,13 @@ function CourseDashboard({history}) {
             </Grid>
             <Grid
               xs={12}
+              sm={12}
               md={7}
+              lg={7}
               item
               className="dashboard-grid-item"
             >
-                <CourseActivities
-                  activityData={activityData}
-                />
+                <CourseActivities/>
             </Grid>
           </Grid>
         </Container>

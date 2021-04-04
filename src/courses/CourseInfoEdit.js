@@ -39,7 +39,7 @@ function CourseInfoEdit({title, desc, img, setEditCourse, getCourseDetails, id})
 		color="primary" 
 		variant="h5"
 		>
-			Course InhtmlFormation
+			Information
 		</Typography>
 		<form
 			onSubmit={handleSubmit}
@@ -77,7 +77,7 @@ function CourseInfoEdit({title, desc, img, setEditCourse, getCourseDetails, id})
 					multiline
 					fullWidth
 					onChange={(e) => setCourseDesc(e.target.value)}
-					rows="3"
+					rows="2"
 					>
 					</TextField>
 				</Grid>

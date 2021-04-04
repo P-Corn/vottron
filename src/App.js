@@ -3,9 +3,11 @@ import {BrowserRouter as Router, Switch, Route, withRouter} from 'react-router-d
 import './App.css';
 import Nav from './Nav';
 import Students from './students/Students'
-import Users from './users/Users'
+import Schedule from './schedule/Schedule'
 import Courses from './courses/Courses'
 import CourseDashboard from './courses/CourseDashboard'
+import StudentDashboard from './students/StudentDashboard'
+import StudentCourse from './schedule/StudentCourse'
 
 
 function App() {
@@ -15,10 +17,12 @@ function App() {
         <Nav />
         <Switch>
           {/* <Home path="/" exact component={Home}/> */}
+          <Route exact path="/schedule" component={Schedule}/>
+          <Route path="/schedule/:id" component={StudentCourse}/>
           <Route exact path="/courses" component={Courses}/>
           <Route path="/courses/:id" component={CourseDashboard}/>
-          <Route path="/students" component={Students}/>
-          <Route path="/users" exact component={Users}/>
+          <Route exact path="/students" component={Students}/>
+          <Route path="/students/:id" component={StudentDashboard}/>
         </Switch>
       </div>
     </Router>

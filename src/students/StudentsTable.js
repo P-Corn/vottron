@@ -18,9 +18,11 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
+import Grid from "@material-ui/core/Grid"
 import FilterListIcon from "@material-ui/icons/FilterList";
 import AddStudentModal from "./AddStudentModal";
 import Axios from 'axios';
+import {withRouter} from 'react-router-dom';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -73,7 +75,6 @@ function EnhancedTableHead(props) {
     onSelectAllClick,
     order,
     orderBy,
-    numSelected,
     rowCount,
     onRequestSort
   } = props;
@@ -111,7 +112,6 @@ function EnhancedTableHead(props) {
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
@@ -139,58 +139,55 @@ const useToolbarStyles = makeStyles((theme) => ({
   }
 }));
 
-const EnhancedTableToolbar = (props) => {
-  const classes = useToolbarStyles();
-  const { numSelected } = props;
+// const EnhancedTableToolbar = ({courseData, getStudents}) => {
+//   const classes = useToolbarStyles();
 
-  const [openModal, setOpenModal] = React.useState(false);
+//   const [openModal, setOpenModal] = React.useState(false);
 
-  //Add student modal open and close handlers
-  const handleOpen = () => {
-    setOpenModal(true);
-  };
+//   //Add student modal open and close handlers
+//   const handleOpen = () => {
+//     setOpenModal(true);
+//   };
 
-  const handleClose = () => {
-    setOpenModal(false);
-  };
-  //
+//   const handleClose = () => {
+//     setOpenModal(false);
+//   };
+//   //
 
-  return (
+//   return (
 
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0
-      })}
-    >
-        <Typography
-          className={classes.title}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Students
-        </Typography>
-        <Tooltip title="Add student">
-          <IconButton onClick={handleOpen} aria-label="add student">
-            <AddIcon />
-          </IconButton>
-        </Tooltip>
-        <AddStudentModal 
-          openModal={openModal}
-          handleClose={handleClose}
-        />
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-    </Toolbar>
-  );
-};
+//     <Toolbar>
+//         <Typography
+//           className={classes.title}
+//           variant="h6"
+//           id="tableTitle"
+//           component="div"
+//         >
+//           Students
+//         </Typography>
+//         <Tooltip title="Add student">
+//           <IconButton onClick={handleOpen} aria-label="add student">
+//             <AddIcon />
+//           </IconButton>
+//         </Tooltip>
+//         <AddStudentModal 
+//           openModal={openModal}
+//           handleClose={handleClose}
+//           courseData={courseData}
+//           getStudents={getStudents}
+//         />
+//         <Tooltip title="Filter list">
+//           <IconButton aria-label="filter list">
+//             <FilterListIcon />
+//           </IconButton>
+//         </Tooltip>
+//     </Toolbar>
+//   );
+// };
 
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired
-};
+// EnhancedTableToolbar.propTypes = {
+//   numSelected: PropTypes.number.isRequired
+// };
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -216,14 +213,24 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function StudentsTable() {
+function StudentsTable({history, courseData}) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState([]);
+  const [openModal, setOpenModal] = React.useState(false);
+
+  //Add student modal open and close handlers
+  const handleOpen = () => {
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
 
   const getStudents = () => {
     Axios.get("http://localhost:3001/students").then((response) => {
@@ -296,8 +303,36 @@ export default function StudentsTable() {
 
   return (
     <div className={classes.root}>
+      <Grid 
+        justify="space-between"
+        alignItems="center" 
+        container
+      >
+        <Grid item>
+          <Typography variant="h4">
+            Students
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddIcon></AddIcon>}
+          onClick={handleOpen}
+          >
+            Add
+          </Button>
+        </Grid>
+      </Grid>
+      <AddStudentModal 
+          openModal={openModal}
+          handleClose={handleClose}
+          courseData={courseData}
+          getStudents={getStudents}
+      />
+      <hr></hr>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        {/* <EnhancedTableToolbar getStudents={getStudents} courseData={courseData} /> */}
         <TableContainer>
           <Table
             className={classes.table}
@@ -306,7 +341,6 @@ export default function StudentsTable() {
           >
             <EnhancedTableHead
               classes={classes}
-              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
@@ -323,12 +357,9 @@ export default function StudentsTable() {
                   return (
                     <TableRow
                       hover
-                      // onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
+                      onClick={() => history.push(`/students/${row.studentid}`)}
                       tabIndex={-1}
                       key={row.studentid}
-                      selected={isItemSelected}
                     >
                       <TableCell
                         component="th"
@@ -353,7 +384,7 @@ export default function StudentsTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 20, 30]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
@@ -365,3 +396,5 @@ export default function StudentsTable() {
     </div>
   );
 }
+
+export default withRouter(StudentsTable);

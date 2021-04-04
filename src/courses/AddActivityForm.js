@@ -4,7 +4,7 @@ import Axios from 'axios';
 import { useRouteMatch } from "react-router-dom";
 
 
-function AddActivityForm({handleClose}) {
+function AddActivityForm({getActivities, handleClose, activityData}) {
 
     const createId = () => {
         return Math.floor(Math.random() * 10000);
@@ -17,19 +17,23 @@ function AddActivityForm({handleClose}) {
     const [activityTitle, setActivityTitle] = useState("");
     const [activityDesc, setActivityDesc] = useState("");
     const [courseId] = useState(id);
+    const [activityOrder] = useState(activityData.length + 1);
 
     const addActivity = () => {
         Axios.post('http://localhost:3001/courses/:id/activities', {
             activityId,
             activityTitle,
             activityDesc,
-            courseId
-        }).then((res) => console.log("added activity", res))
+            courseId,
+            activityOrder
+        }).then((res) => {
+            getActivities(courseId);
+        })
     }
 
     const handleSubmit = (e) => {
+        addActivity();
         handleClose();
-        addActivity(id);
         e.preventDefault();
     }
 

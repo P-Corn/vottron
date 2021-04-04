@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddStudentModal({openModal, handleClose}) {
+export default function AddStudentModal({courseData, openModal, handleClose, getStudents}) {
   const classes = useStyles();
 
   return (
@@ -37,7 +37,7 @@ export default function AddStudentModal({openModal, handleClose}) {
         }}
       >
         <Fade in={openModal}>
-          <AddStudentForm handleClose={handleClose} />
+          <AddStudentForm getStudents={getStudents} courseData={courseData} handleClose={handleClose} />
         </Fade>
       </Modal>
     </div>

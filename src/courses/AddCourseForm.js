@@ -52,7 +52,6 @@ function AddCourseForm({handleClose}) {
                      fullWidth={true} 
                      id="Course title" 
                      label="Course title" 
-                     variant="filled"
                      value={courseTitle}
                      onChange={(e) => setCourseTitle(e.target.value)}
                     />
@@ -65,7 +64,6 @@ function AddCourseForm({handleClose}) {
             >
                 <Grid xs={12} item>
                     <TextField
-                        variant="filled"
                         multiline
                         rows={4}
                         fullWidth={true} 
@@ -87,7 +85,6 @@ function AddCourseForm({handleClose}) {
                      fullWidth={true} 
                      id="Course image" 
                      label="Course image" 
-                     variant="filled"
                      value={courseImg}
                      onChange={(e) => setCourseImg(e.target.value)}
                     />

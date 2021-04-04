@@ -7,21 +7,21 @@ function CourseInfo({courseTitle, courseDesc, courseImg, setEditCourse}) {
   return (
     <Paper
       className="course-dashboard-paper"
-      elevation={4}
+      elevation={2}
     >
       <Typography 
       className="dashboard-card-title" 
       variant="h5"
       color="primary"
       >
-        Course Information
+        Information
       </Typography>
       <Grid direction="column" container>
         <Grid 
         item
         className="dashboard-details-container"
         >
-          <Typography className="dashboard-label" variant="subtitle1">
+          <Typography className="dashboard-label" variant="subtitle2">
               Title:
           </Typography>
           <Typography variant="h6">
@@ -32,7 +32,7 @@ function CourseInfo({courseTitle, courseDesc, courseImg, setEditCourse}) {
         item
         className="dashboard-details-container"
         >
-          <Typography className="dashboard-label" variant="subtitle1">
+          <Typography className="dashboard-label" variant="subtitle2">
               Description:
           </Typography>
           <Typography variant="h6">
@@ -41,15 +41,16 @@ function CourseInfo({courseTitle, courseDesc, courseImg, setEditCourse}) {
         </Grid>
         <Grid 
         item
-        // sm={9}
+        sm={8}
+        md={10}
         className="dashboard-details-container"
         >
-          <Typography className="dashboard-label__img" variant="subtitle1">Image:</Typography>
+          <Typography className="dashboard-label__img" variant="subtitle2">Image:</Typography>
           <Card>
               <CardMedia
               component="img"
               image={courseImg}
-              height="220"
+              height="230"
               />
           </Card>
         </Grid>
