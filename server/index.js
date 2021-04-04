@@ -25,6 +25,6 @@ app.use('/studentactivities', studentActivitiesRoute);
 
 
 //Listen
-app.listen(3001, () => {
-    console.log("running on port 3001");
+app.listen(process.env.PORT || PORT, () => {
+    console.log("Running application");
 });
