@@ -2,6 +2,10 @@ hr {
     margin-bottom: 2rem;
 }
 
+.color {
+    color: green;
+}
+
 .form-container {
     min-width: 500px;
 }
