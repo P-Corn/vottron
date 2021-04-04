@@ -25,7 +25,7 @@ function StudentInfoEdit({firstName, lastName, id, course, active, dob, notes, s
 	]
 
 	const getCourseTitles = () => {
-		Axios.get('http://localhost:3001/courses/coursetitles')
+		Axios.get('https://vottron.herokuapp.com/courses/coursetitles')
 		.then((response) => {
 		setCourses([...response.data]);
 		})

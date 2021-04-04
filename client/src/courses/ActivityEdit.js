@@ -16,7 +16,7 @@ function ActivityEdit({setEditActivity, clickedActivity, getActivities}) {
     const [activityOrder, setActivityOrder] = useState(activityorder);
 
     const updateActivity = () => {
-        Axios.post('http://localhost:3001/activities/update', {
+        Axios.post('https://vottron.herokuapp.com/activities/update', {
             activityId,
             activityTitle,
             activityDesc,

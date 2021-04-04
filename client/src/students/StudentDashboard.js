@@ -19,7 +19,7 @@ function StudentDashboard({history}) {
   const id = url.params.id;
 
   const getStudentDetails = (id) => {
-    Axios.get('http://localhost:3001/students/:id', {
+    Axios.get('https://vottron.herokuapp.com/students/:id', {
       params: {
         id
       }

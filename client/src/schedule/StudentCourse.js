@@ -27,7 +27,7 @@ function StudentCourse({history}) {
   const [activityData, setActivityData] = useState([]);
 
   const getStudentData = (id) => {
-    Axios.get("http://localhost:3001/students/:id", {
+    Axios.get("https://vottron.herokuapp.com/students/:id", {
 			params: {
 					id
 			}

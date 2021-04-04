@@ -20,7 +20,7 @@ function AddActivityForm({getActivities, handleClose, activityData}) {
     const [activityOrder] = useState(activityData.length + 1);
 
     const addActivity = () => {
-        Axios.post('http://localhost:3001/courses/:id/activities', {
+        Axios.post('https://vottron.herokuapp.com/courses/:id/activities', {
             activityId,
             activityTitle,
             activityDesc,

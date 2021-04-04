@@ -26,7 +26,7 @@ function AddStudentForm({courseData, handleClose, getStudents}) {
     const [weekDays] = useState(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]);
 
     const addStudent = (dob, {courseid, coursetitle, coursedescription, courseimage}) => {
-        Axios.post('http://localhost:3001/students', {
+        Axios.post('https://vottron.herokuapp.com/students', {
             studentId,
             firstName,
             lastName,
@@ -40,7 +40,7 @@ function AddStudentForm({courseData, handleClose, getStudents}) {
         .then(((res) => {
             handleClose();
             getStudents();
-            Axios.post('http://localhost:3001/courses/studentcourse', {
+            Axios.post('https://vottron.herokuapp.com/courses/studentcourse', {
                 studentId,
                 coursetitle,
                 coursedescription,
@@ -48,7 +48,7 @@ function AddStudentForm({courseData, handleClose, getStudents}) {
                 courseid
             }).then((res) => {
                 console.log(res)
-                Axios.get('http://localhost:3001/activities/:id', {
+                Axios.get('https://vottron.herokuapp.com/activities/:id', {
                     params: {
                         id: courseid,
                     }
@@ -56,7 +56,7 @@ function AddStudentForm({courseData, handleClose, getStudents}) {
                     let activityData = [...res.data];
                     for(let activity of activityData){
                         const {activityid, activitytitle, activitydescription, activityorder} = activity;
-                        Axios.post('http://localhost:3001/activities/studentactivities', {
+                        Axios.post('https://vottron.herokuapp.com/activities/studentactivities', {
                             activitytitle,
                             activitydescription,
                             studentId,

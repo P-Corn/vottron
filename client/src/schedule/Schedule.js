@@ -17,7 +17,7 @@ function Schedule() {
   const [students, setStudents] = useState([])
 
   const getStudents = () => {
-    Axios.get("http://localhost:3001/students").then((response) => {
+    Axios.get("https://vottron.herokuapp.com/students").then((response) => {
       console.log(response.data)
       // let dataArray = [...rows];
       setStudents([...response.data]);

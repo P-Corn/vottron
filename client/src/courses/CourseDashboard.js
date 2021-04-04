@@ -18,7 +18,7 @@ function CourseDashboard({history}) {
   const id = url.params.id;
 
   const getCourseDetails = (id) => {
-    Axios.get('http://localhost:3001/courses/:id', {
+    Axios.get('https://vottron.herokuapp.com/courses/:id', {
       params: {
         id
       }

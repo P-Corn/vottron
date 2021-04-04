@@ -11,7 +11,7 @@ function Students() {
   const [courseData, setCourseData] = useState([]);
 
   const getCourseData = () => {
-    Axios.get('http://localhost:3001/courses/coursetitles')
+    Axios.get('https://vottron.herokuapp.com/courses/coursetitles')
     .then((response) => {
       setCourseData([...response.data]);
     })

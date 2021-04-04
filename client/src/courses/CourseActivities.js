@@ -24,7 +24,7 @@ function CourseActivities() {
   }
 
   const getActivities = (id) => {
-    Axios.get('http://localhost:3001/activities/:id', {
+    Axios.get('https://vottron.herokuapp.com/activities/:id', {
       params: {
         id
       }

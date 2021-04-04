@@ -12,7 +12,7 @@ function CourseInfoEdit({title, desc, img, setEditCourse, getCourseDetails, id})
     const [courseImg, setCourseImg] = useState(img);
 
 	const updateCourse = (id) => {
-		Axios.post('http://localhost:3001/courses/:id', {
+		Axios.post('https://vottron.herokuapp.com/courses/:id', {
 			courseId,
 			courseTitle,
 			courseDesc,

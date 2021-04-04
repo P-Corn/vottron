@@ -15,7 +15,7 @@ function AddCourseForm({handleClose}) {
     const [courseImg, setCourseImg] = useState("");
 
     const addCourse = () => {
-        Axios.post('http://localhost:3001/courses', {
+        Axios.post('https://vottron.herokuapp.com/courses', {
             courseId,
             courseTitle,
             courseDesc,
