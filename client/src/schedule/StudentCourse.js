@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Grid, Typography, Button, Paper} from '@material-ui/core';
+import {Container, Grid, Typography, Box, Paper, Button} from '@material-ui/core';
 import Axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouteMatch } from "react-router-dom";
 import {withRouter} from 'react-router-dom';
 import StudentActivities from './StudentActivities'
+import StudentNotes from './StudentNotes'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import StudentActivity from './StudentActivity'
 
 const useStyles = makeStyles({
 	paper: {
 		padding: '30px'
-	},
-	cardTitle: {
-		paddingBottom: "20px"
 	}
 })
 
@@ -25,6 +25,15 @@ function StudentCourse({history}) {
   const [studentData, setStudentData] = useState({});
   const [courseData, setCourseData] = useState({});
   const [activityData, setActivityData] = useState([]);
+  const [commentText, setCommentText] = useState("");
+  const [commentDate, setCommentDate] = useState("");
+  const [singleActivity, setSingleActivity] = useState(false);
+  const [singleActivityData, setSingleActivityData] = useState([])
+
+  const handleActivity = (activity) => {
+    setSingleActivity(true)
+    setSingleActivityData({...activity})
+  }
 
   const getStudentData = (id) => {
     Axios.get("https://vottron.herokuapp.com/students/:id", {
@@ -32,14 +41,13 @@ function StudentCourse({history}) {
 					id
 			}
     }).then((response) => {
-      console.log(response.data)
       // let dataArray = [...rows];
       setStudentData({...response.data[0]});
     })
   }
 
   const getCourseData = (id) => {
-    Axios.get("http://localhost:3001/studentcourse/:id", {
+    Axios.get("https://vottron.herokuapp.com/studentcourse/:id", {
 			params: {
 					id
 			}
@@ -49,17 +57,33 @@ function StudentCourse({history}) {
   }
 
   const getActivityData = (id) => {
-    Axios.get("http://localhost:3001/studentactivities/:id", {
+    Axios.get("https://vottron.herokuapp.com/studentactivities/:id", {
 			params: {
 					id
 			}
     }).then((response) => {
-      setActivityData([...response.data]);
+		console.log(response)
+      	setActivityData([...response.data]);
+    })
+  }
+
+  const getCommentData = (id) => {
+    Axios.get("https://vottron.herokuapp.com/studentcomments/:id", {
+			params: {
+					id
+			}
+    }).then((response) => {
+		  console.log(response)
+      if(response.data[0]) {
+        setCommentText(response.data[0].commenttext)
+        setCommentDate(response.data[0].commentdate)
+      }
     })
   }
 
   useEffect (() => {
     getStudentData(id);
+    getCommentData(id);
     getCourseData(id);
     getActivityData(id);
   },[])
@@ -76,26 +100,63 @@ function StudentCourse({history}) {
 					>
 						<Grid
 						item
-						lg={5}
+						xs={12}
+            md={4}
 						>
-							<Paper className={classes.paper}>
-								<Typography className={classes.cardTitle} color="primary" variant="h5">
-									Student Info
-								</Typography>
-								<Typography variant="h4">
-									{`${studentData.firstname} ${studentData.lastname}`}
-								</Typography>
-							</Paper>
+							{/* <Paper className={classes.paper}> */}
+                <Grid
+                container
+                direction="column"
+                >
+                  <Grid item>
+                    <Typography className={classes.cardTitle} color="primary" variant="h6">
+                      Student
+                    </Typography>
+                    <hr></hr>
+                    <Box pb={1}/>
+                    <Typography variant="h4">
+                      {`${studentData.firstname} ${studentData.lastname}`}
+                    </Typography>
+                  </Grid>
+                  <Box py={4}/>
+                  <Grid item>
+                    <StudentNotes 
+                    commentText={commentText}
+                    commentDate={commentDate}
+                    studentId={studentData.studentid}/>
+                  </Grid>
+                </Grid>	
+							{/* </Paper> */}
 						</Grid>
 						<Grid
 						item
-						lg={7}
+            xs={12}
+            md={8}
 						>
 							<Paper className={classes.paper}>
-								<Typography className={classes.cardTitle} color="primary" variant="h5">
-									{courseData.coursetitle}
-								</Typography>
-								<StudentActivities activityData={activityData}/>
+                {singleActivity === false ?
+                  <div>
+                    <Typography className={classes.cardTitle} color="primary" variant="h5">
+                    {courseData.coursetitle} Activities
+                    </Typography>
+                    <StudentActivities handleActivity={handleActivity} activityData={activityData}/>
+                  </div>
+                  :
+                  <div>
+                    <Button
+                    startIcon={<ArrowBackIcon/>}
+                    color="primary"
+                    variant="text"
+                    onClick={() => setSingleActivity(false)}
+                    >
+                      back
+                    </Button>
+                    <Box pb={2}/>
+                    <StudentActivity
+                    data={singleActivityData}
+                    />
+                  </div>
+                }
 							</Paper>
 						</Grid>
 					</Grid>

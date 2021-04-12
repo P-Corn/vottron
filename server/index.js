@@ -1,8 +1,19 @@
 const express = require('express');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
 
-app.use(cors());
+const whitelist = ['http://localhost:3000', 'https://www.peytoncornelison.com']
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 
@@ -21,6 +32,9 @@ app.use('/studentcourse', studentCourseRoute);
 
 const studentActivitiesRoute = require('./routes/studentactivities');
 app.use('/studentactivities', studentActivitiesRoute);
+
+const studentCommentsRoute = require('./routes/studentcomments');
+app.use('/studentcomments', studentCommentsRoute);
 
 
 
