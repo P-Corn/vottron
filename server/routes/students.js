@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../database')
+const getData = require('../database')
 
 router.get('/', (req,res) => {
-    db.query("SELECT * FROM students", (err, result) => {
-        if (err) {
-            console.log(err)
-        } else {
-            res.send(result)
-        }
-    })
-})
+    const query = 'SELECT * FROM students'
+
+    getData(query)
+    .then(data => res.send(data))
+    .catch(err => console.error(err))
+});
 
 router.post('/', (req, res) =>{
     const studentId = req.body.studentId;
@@ -23,32 +21,24 @@ router.post('/', (req, res) =>{
     const active = req.body.active;
     const weekDay = req.body.weekDay;
 
-    db.query(
-        'INSERT INTO students (studentid, firstname, lastname, adminnotes,\
-             course, studentdob, enrolldate, active, weekday) VALUES (?,?,?,?,?,?,?,?,?)', 
-        [studentId, firstName, lastName, adminNotes, course, dob, enrollDate,active, weekDay], 
-        (err, result) => {
-            if (err) {
-                console.log(err)
-            } else {
-                res.send(result)
-            }
-        } 
-    );
+    const query = 'INSERT INTO students (studentid, firstname, lastname, adminnotes,\
+        course, studentdob, enrolldate, active, weekday) VALUES (?,?,?,?,?,?,?,?,?)'
+    const variables = [studentId, firstName, lastName, adminNotes, course, dob, enrollDate,active, weekDay]
+
+    getData(query, variables)
+    .then(data => res.send(data))
+    .catch(err => console.error(err))
 });
 
 router.get('/:id', (req, res) => {
     const studentId = req.query.id;
 
-    const query = "SELECT * FROM students WHERE studentid = (?);"
-    
-    db.query(
-        query, [studentId],
-        (err, result) => {
-            if (err) console.log(err)
-            else res.send(result)
-        }
-    )
+    const query = 'SELECT * FROM students WHERE studentid = (?)'
+    const variables = [studentId]
+
+    getData(query, variables)
+    .then(data => res.send(data))
+    .catch(err => console.error(err))
 });
 
 router.post('/update', (req, res) =>{
@@ -60,17 +50,35 @@ router.post('/update', (req, res) =>{
     const active = req.body.activeVal;
     const dob = req.body.dobVal;
 
-    db.query(
-        'UPDATE students SET firstname = (?), lastname = (?), adminnotes = (?), course=(?), active=(?), studentdob=(?) where studentid = (?)', 
-        [firstName, lastName, adminNotes, course, active, dob, studentId], 
-        (err, result) => {
-            if (err) {
-                console.log(err)
-            } else {
-                res.send(result)
-            }
-        } 
-    );
+    const query = 'UPDATE students SET firstname = (?), lastname = (?), adminnotes = (?), course=(?), active=(?), studentdob=(?) where studentid = (?)'
+    const variables = [firstName, lastName, adminNotes, course, active, dob, studentId]
+
+    getData(query, variables)
+    .then(data => res.send(data))
+    .catch(err => console.error(err))
+});
+
+router.post('/course', (req, res) =>{
+    const course = req.body.courseTitle;
+    const ogcourse = req.body.title;
+
+    const query = 'UPDATE students SET course = (?) WHERE course = (?)'
+    const variables = [course, ogcourse]
+
+    getData(query, variables)
+    .then(data => res.send(data))
+    .catch(err => console.error(err))
+});
+
+router.post('/delete', (req, res) =>{
+    const studentId = req.body.id;
+
+    const query = "DELETE from students where studentid = (?);"
+    let variables = [studentId];
+
+    getData(query, variables)
+    .then(data => res.send(data))
+    .catch(err => console.error(err))
 });
 
 module.exports = router;

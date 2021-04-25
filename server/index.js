@@ -16,7 +16,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-
 //ROUTES
 const studentsRoute = require('./routes/students');
 app.use('/students', studentsRoute);

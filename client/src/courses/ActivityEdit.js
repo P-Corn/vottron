@@ -1,124 +1,165 @@
 import React, {useState} from 'react';
-import {Grid, Typography, Card, CardMedia, Paper, Button, TextField} from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
-import CancelIcon from '@material-ui/icons/Cancel';
+import {Grid, Typography, Button, TextField, IconButton, Box} from '@material-ui/core';
+import Save from '@material-ui/icons/Save';
+import {ArrowBack} from '@material-ui/icons/';
 import Axios from 'axios';
-import { useRouteMatch } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
 
-function ActivityEdit({setEditActivity, clickedActivity, getActivities}) {
+const useStyles = makeStyles((theme) => ({
+  }));
 
-	const {activityid, activitytitle, activitydescription, courseid, activityorder} = clickedActivity;
+function ActivityEdit({currentActivity, getActivities, setEditActivity, setCurrentActivity}) {
+	const classes = useStyles();
 
-    const [activityId] = useState(activityid);
-    const [activityTitle, setActivityTitle] = useState(activitytitle);
-    const [activityDesc, setActivityDesc] = useState(activitydescription);
-    const [courseId] = useState(courseid);
-    const [activityOrder, setActivityOrder] = useState(activityorder);
+    const [activityId] = useState(currentActivity.activityid);
+    const [activitytitle, setActivityTitle] = useState(currentActivity.activitytitle);
+    const [activitydescription, setActivityDesc] = useState(currentActivity.activitydescription);
+	const [activitysolution, setActivitySolution] = useState(currentActivity.activitysolution);
+    const [courseId] = useState(currentActivity.courseid);
+    const [activityOrder, setActivityOrder] = useState(currentActivity.activityorder);
 
-    const updateActivity = () => {
-        Axios.post('https://vottron.herokuapp.com/activities/update', {
-            activityId,
-            activityTitle,
-            activityDesc,
-            courseId,
-            activityOrder
-        }).then(() => getActivities(courseId))
+	const validate = {
+        check: (input, num) => (input.length >= num),
+        validateAll: function validateAll(...inputs) {
+            for(let input of inputs){
+                if(this.check(input[0], input[1]))
+                    return true;
+            }
+            return false;
+        }
     }
 
-	const handleSubmit = (e) => {
-		updateActivity();
-		setEditActivity(false);
+	const updateActivity = () => {
+		Axios.post('https://vottron.herokuapp.com/activities/update', {
+			activityId,
+			activitytitle,
+			activitydescription,
+			activitysolution,
+			activityOrder
+		}).then((res) => {
+			getActivities(courseId)
+			setEditActivity(false)
+			Axios.post('https://vottron.herokuapp.com/studentactivities/update', {
+				activityId,
+				activitytitle,
+				activitydescription,
+				activitysolution,
+				activityOrder
+			}).then((res) => {
+				console.log(res)
+				setCurrentActivity({activitytitle, activitydescription, activitysolution})
+			})
+		})
+	  }
+
+	const submitData = (e) => {
 		e.preventDefault();
+        if(validate.validateAll([activitytitle, 36], [activitydescription, 275], [activitysolution, 275]))
+            return;
+        else {
+            updateActivity();
+        }
 	}
 
   	return (
 	<div>
-		<form
-			onSubmit={handleSubmit}
-		>
-			<Grid 
-			direction="column" 
-			container
-			>
+		<form onSubmit={submitData}>
+			<Grid
+                container
+                justify="space-between"
+                >
+					<Grid alignItems="center" xs={6} container item>
+						<Grid item>
+							<IconButton
+								color="primary"
+								onClick={() => setEditActivity(false)}
+							>
+								<ArrowBack/>
+							</IconButton>
+						</Grid>
+						<Grid
+						item
+						>
+							<Typography 
+							className="dashboard-card-title" 
+							variant="h5"
+							color="primary"
+							>
+							Edit
+							</Typography>
+						</Grid>
+					</Grid>
+                <Grid
+                item
+                
+                >
+                    <Button
+                    color="primary"
+                    variant="contained"
+                    startIcon={<Save/>}
+					type="submit"
+                    >
+                        Save
+                    </Button>
+                </Grid>
+            </Grid>
+			<Box p={2}>
 				<Grid 
-				item
-				className="dashboard-details-container"
-				>
-					<Typography className="dashboard-label" variant="subtitle1">
-						<label id="course-title" value="Title">Title:</label>
-					</Typography>
-
-					<TextField 
-					value={activityTitle}
-					variant="outlined"
-					fullWidth
-					onChange={(e) => setActivityTitle(e.target.value)}
-					>
-					</TextField>
-				</Grid>
-				<Grid 
-				item
-				className="dashboard-details-container"
-				>
-					<Typography className="dashboard-label" variant="subtitle1">
-						<label id="course-description" value="Course description">Description:</label>
-					</Typography>
-					<TextField 
-					value={activityDesc}
-					variant="outlined"
-					multiline
-					fullWidth
-					onChange={(e) => setActivityDesc(e.target.value)}
-					rows="3"
-					>
-					</TextField>
-				</Grid>
-				<Grid 
-				item
-				sm={9}
-				className="dashboard-details-container"
-				>
-					<Typography className="dashboard-label__img" variant="subtitle1">Activity Order:</Typography>
-					<TextField
-					select
-					// onChange={(e) => setCourseDesc(e.target.value)}
-					>
-					</TextField>
-				</Grid>
-				<Grid
-				item
+				direction="column" 
 				container
-				justify="flex-end"
-				spacing={2}
 				>
-					<Grid
+					<Grid 
 					item
-					// className="cancel-button"
+					className="dashboard-details-container"
 					>
-						<Button
+						{/* <Typography className="dashboard-label" variant="subtitle1">
+							<label id="course-title" value="Title">{`Title ${validate.check(activitytitle, 36) ? '(max 36 characters)' : ''}`}</label>
+						</Typography> */}
+
+						<TextField 
+						value={activitytitle}
+						label={`Title ${validate.check(activitytitle, 36) ? '(max 36 characters)' : ''}`}
 						variant="outlined"
-						color="secondary"
-						onClick={() => {setEditActivity(false)}}
-						startIcon={<CancelIcon></CancelIcon>}
+						fullWidth
+						error={validate.check(activitytitle, 36)}
+						onChange={(e) => setActivityTitle(e.target.value)}
 						>
-							Cancel
-						</Button>
+						</TextField>
 					</Grid>
-					<Grid
+					<Grid 
 					item
+					className="dashboard-details-container"
 					>
-						<Button
-						variant="contained"
-						color="primary"
-						type="submit"
-						value="submit"
-						startIcon={<SaveIcon></SaveIcon>}
+						<TextField 
+						value={activitydescription}
+						variant="outlined"
+						multiline
+						label={`Instructions ${validate.check(activitydescription, 255) ? '(max 255 characters)' : ''}`}
+						fullWidth
+						error={validate.check(activitydescription, 255)}
+						onChange={(e) => setActivityDesc(e.target.value)}
+						rows="3"
 						>
-							Save
-						</Button>
+						</TextField>
+					</Grid>
+					<Grid 
+					item
+					className="dashboard-details-container"
+					>
+						<TextField 
+						value={activitysolution}
+						variant="outlined"
+						error={validate.check(activitysolution, 255)}
+						label={`Solution ${validate.check(activitysolution, 255) ? '(max 255 characters)' : ''}`}
+						multiline
+						fullWidth
+						onChange={(e) => setActivitySolution(e.target.value)}
+						rows="5"
+						>
+						</TextField>
 					</Grid>
 				</Grid>
-      	</Grid>
+			</Box>
     	</form>
    	</div>
 	);

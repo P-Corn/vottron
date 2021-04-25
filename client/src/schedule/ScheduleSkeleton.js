@@ -1,8 +1,7 @@
 import React from 'react';
 import {Card, Grid, CardActionArea, Divider, Typography, Box} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import {Face, AccountCircle, Class} from '@material-ui/icons/';
-import {withRouter} from 'react-router-dom';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles({
 	root: {
@@ -33,14 +32,13 @@ const useStyles = makeStyles({
 	}
 });
 
-function StudentCard({name, course, id, history}) {
+function ScheduleSkeleton() {
 	const classes = useStyles();
 
   return (
     <div>
 		<Card>
 			<CardActionArea 
-			onClick={() => history.push(`/schedule/${id}`)}
 			>
 				<div className={classes.details}>
 					<div className={classes.iconContainer}>
@@ -49,15 +47,15 @@ function StudentCard({name, course, id, history}) {
 					<div className={classes.cardContent}>
 					{/* <Box pb={1}/> */}
 						<Typography className={classes.textContainer} variant="h5" component="h2">
-							<Face className={classes.icon} color="primary"/>
-							{name}
+							<Skeleton variant="circle" width="30px" height="30px" className={classes.icon}/>
+                            <Skeleton width="250px" variant="text"/>
 						</Typography>
 						<Box pt={.9}/>
 						<Divider variant="fullWidth"/>
 						<Box pb={1.3}/>
 						<Typography className={classes.textContainer} color="textSecondary">
-							<Class className={classes.icon} color="primary"/>
-							{course}
+                            <Skeleton variant="circle" width="30px" height="30px" className={classes.icon}/>
+                            <Skeleton width="200px" variant="text"/>
 						</Typography>
 					</div>
 				</div>
@@ -67,4 +65,4 @@ function StudentCard({name, course, id, history}) {
   );
 }
 
-export default withRouter(StudentCard);
+export default ScheduleSkeleton;
