@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Grid, Typography, Box, Paper, Button} from '@material-ui/core';
+import {Grid, Typography, Box, Paper, Button, IconButton} from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import Axios from 'axios';
 import Delete from '@material-ui/icons/Delete';
@@ -17,7 +17,7 @@ function StudentInfo({firstName, lastName, id, course, active, dob, notes, setEd
 
   return (
     <Paper
-      className="student-dashboard-paper"
+      className="paper"
       elevation={2}
     >
       {/* <Typography 
@@ -48,22 +48,19 @@ function StudentInfo({firstName, lastName, id, course, active, dob, notes, setEd
           align="right"
           lg={8}
           >
-            <Button
+            <IconButton
             color="secondary"
-            variant="outlined"
             onClick={() => deleteStudent()}
-            startIcon={<Delete/>}
             >
-                Delete
-            </Button>
+              <Delete/>
+            </IconButton>
             <Box px={1} component="span"/>
             <Button
-            variant="contained"
+            variant="outlined"
             color="primary"
-            startIcon={<CreateIcon></CreateIcon>}
             onClick={() => setEditStudent(true)}
             >
-            Edit
+              Edit
             </Button>
           </Grid>
         </Grid>
@@ -78,7 +75,7 @@ function StudentInfo({firstName, lastName, id, course, active, dob, notes, setEd
               First name:
           </Typography>
           <Box>
-            <Typography variant="h6" fontWeight={700}>
+            <Typography variant="h6">
                 {firstName}
             </Typography>
           </Box>
@@ -108,7 +105,7 @@ function StudentInfo({firstName, lastName, id, course, active, dob, notes, setEd
           <Typography color="primary" className="dashboard-label" variant="subtitle2">
             Course:
           </Typography>
-          <Typography fontWeight="fontWeightBold" variant="h6">
+          <Typography variant="h6">
             {course}
           </Typography>
         </Grid>
@@ -122,7 +119,7 @@ function StudentInfo({firstName, lastName, id, course, active, dob, notes, setEd
           <Typography color="primary" className="dashboard-label" variant="subtitle2">
             DOB:
           </Typography>
-          <Typography fontWeight="fontWeightBold" variant="h6">
+          <Typography variant="h6">
             {dob}
           </Typography>
         </Grid>
@@ -136,7 +133,7 @@ function StudentInfo({firstName, lastName, id, course, active, dob, notes, setEd
           <Typography color="primary" className="dashboard-label" variant="subtitle2">
             Active:
           </Typography>
-          <Typography fontWeight="fontWeightBold" variant="h6">
+          <Typography variant="h6">
             {active}
           </Typography>
         </Grid>

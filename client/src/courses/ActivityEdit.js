@@ -1,22 +1,17 @@
 import React, {useState} from 'react';
 import {Grid, Typography, Button, TextField, IconButton, Box} from '@material-ui/core';
-import Save from '@material-ui/icons/Save';
 import {ArrowBack} from '@material-ui/icons/';
 import Axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  }));
-
 function ActivityEdit({currentActivity, getActivities, setEditActivity, setCurrentActivity}) {
-	const classes = useStyles();
 
     const [activityId] = useState(currentActivity.activityid);
     const [activitytitle, setActivityTitle] = useState(currentActivity.activitytitle);
     const [activitydescription, setActivityDesc] = useState(currentActivity.activitydescription);
 	const [activitysolution, setActivitySolution] = useState(currentActivity.activitysolution);
     const [courseId] = useState(currentActivity.courseid);
-    const [activityOrder, setActivityOrder] = useState(currentActivity.activityorder);
+    const [activityOrder] = useState(currentActivity.activityorder);
 
 	const validate = {
         check: (input, num) => (input.length >= num),
@@ -36,7 +31,7 @@ function ActivityEdit({currentActivity, getActivities, setEditActivity, setCurre
 			activitydescription,
 			activitysolution,
 			activityOrder
-		}).then((res) => {
+		}).then(() => {
 			getActivities(courseId)
 			setEditActivity(false)
 			Axios.post('https://vottron.herokuapp.com/studentactivities/update', {
@@ -95,15 +90,14 @@ function ActivityEdit({currentActivity, getActivities, setEditActivity, setCurre
                 >
                     <Button
                     color="primary"
-                    variant="contained"
-                    startIcon={<Save/>}
+                    variant="outlined"
 					type="submit"
                     >
                         Save
                     </Button>
                 </Grid>
             </Grid>
-			<Box p={2}>
+			<Box>
 				<Grid 
 				direction="column" 
 				container
@@ -119,7 +113,6 @@ function ActivityEdit({currentActivity, getActivities, setEditActivity, setCurre
 						<TextField 
 						value={activitytitle}
 						label={`Title ${validate.check(activitytitle, 36) ? '(max 36 characters)' : ''}`}
-						variant="outlined"
 						fullWidth
 						error={validate.check(activitytitle, 36)}
 						onChange={(e) => setActivityTitle(e.target.value)}
@@ -132,7 +125,6 @@ function ActivityEdit({currentActivity, getActivities, setEditActivity, setCurre
 					>
 						<TextField 
 						value={activitydescription}
-						variant="outlined"
 						multiline
 						label={`Instructions ${validate.check(activitydescription, 255) ? '(max 255 characters)' : ''}`}
 						fullWidth
@@ -148,7 +140,6 @@ function ActivityEdit({currentActivity, getActivities, setEditActivity, setCurre
 					>
 						<TextField 
 						value={activitysolution}
-						variant="outlined"
 						error={validate.check(activitysolution, 255)}
 						label={`Solution ${validate.check(activitysolution, 255) ? '(max 255 characters)' : ''}`}
 						multiline

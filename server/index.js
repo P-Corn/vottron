@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const whitelist = ['http://localhost:3000', 'https://www.peytoncornelison.com']
+const whitelist = ['http://localhost:3000', 'https://goofy-swirles-9b1963.netlify.app']
 const corsOptions = {
   origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1) {

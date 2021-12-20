@@ -9,7 +9,7 @@ function AddCourseForm({handleClose}) {
         return Math.floor(Math.random() * 999999);
     }
 
-    const [courseId, setCourseId] = useState(createId);
+    const [courseId] = useState(createId);
     const [courseTitle, setCourseTitle] = useState("");
     const [courseDesc, setCourseDesc] = useState("");
     const [courseImg, setCourseImg] = useState("");
@@ -34,7 +34,7 @@ function AddCourseForm({handleClose}) {
         }).then(() => console.log("added course"))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = () => {
         if(validate.validateAll([courseTitle, 36], [courseDesc, 90])) {
             return;
         }
@@ -54,7 +54,7 @@ function AddCourseForm({handleClose}) {
                 variant="h4"
                 className="form-row"
             >
-                Add a new course
+                Add a new class
             </Typography>
             <Grid 
              container
@@ -101,7 +101,7 @@ function AddCourseForm({handleClose}) {
                     <TextField 
                      fullWidth={true} 
                      id="Course image" 
-                     label="Image" 
+                     label="Image URL" 
                      value={courseImg}
                      onChange={(e) => setCourseImg(e.target.value)}
                     />

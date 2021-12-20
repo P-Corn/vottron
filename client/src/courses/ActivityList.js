@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import {ListItem, ListItemText, ListItemAvatar, Avatar, Grid, Typography, Button, Box} from '@material-ui/core';
@@ -20,7 +20,11 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: "#1f287a",
 	},
 	listItem: {
+		[theme.breakpoints.down('sm')]: {
+			paddingLeft: '0px'
+		  },
 		paddingLeft: 16,
+		paddingRight: 0,
 	}
 }));
 
@@ -45,7 +49,7 @@ export default function ActivityList({activityData, contentControl, handleOpen})
 					</ListItemAvatar>
 					<ListItemText 
 					primary={activityData[index].activitytitle} 
-					secondary={activityData[index].activitydescription}
+					secondary={activityData[index].activitydescription.slice(10) + '...'}
 					/>
 					<Arrow color="primary"/>
 				</ListItem>

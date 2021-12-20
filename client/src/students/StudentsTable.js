@@ -54,7 +54,7 @@ const headCells = [
     disablePadding: false,
     label: "Name"
   },
-  { id: "course", numeric: false, disablePadding: false, label: "Course" },
+  { id: "course", numeric: false, disablePadding: false, label: "Class" },
   { id: "active", numeric: true, disablePadding: false, label: "Active" },
   { id: "age", numeric: true, disablePadding: false, label: "Age" },
   {
@@ -209,14 +209,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function StudentsTable({history, courseData}) {
+function StudentsTable({history, courseData, studentData, getStudents}) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = React.useState([]);
+  const [rows, setRows] = React.useState([studentData]);
   const [openModal, setOpenModal] = React.useState(false);
 
   //Add student modal open and close handlers
@@ -228,17 +228,17 @@ function StudentsTable({history, courseData}) {
     setOpenModal(false);
   };
 
-  const getStudents = () => {
-    Axios.get("https://vottron.herokuapp.com/students").then((response) => {
-      const data = response.data;
-      // let dataArray = [...rows];
-      setRows([...data]);
-    })
-  }
+  // const getStudents = () => {
+  //   Axios.get("https://vottron.herokuapp.com/students").then((response) => {
+  //     const data = response.data;
+  //     // let dataArray = [...rows];
+  //     setRows([...data]);
+  //   })
+  // }
 
   useEffect (() => {
-    getStudents();
-  },[])
+    setRows([...studentData]);
+  },[studentData])
   
   // function createData(name, calories, fat, carbs, protein) {
   //   return { name, calories, fat, carbs, protein };

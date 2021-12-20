@@ -2,19 +2,12 @@ import React, {useState} from 'react';
 import {Grid, Typography, Divider, Box, Button, IconButton} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ActivityEdit from './ActivityEdit';
-import {Edit, ArrowBack} from '@material-ui/icons/';
+import {ArrowBack} from '@material-ui/icons/';
 import Delete from '@material-ui/icons/Delete';
 import Axios from 'axios';
 
-const useStyles = makeStyles({
-	flexItem: {
-		flex: "46%"
-	}
-});
-
 function Activity({clickedActivity, getActivities, setSingleActivity}) {
 
-    const classes = useStyles();
     const [editActivity, setEditActivity] = useState(false)
     const [currentActivity, setCurrentActivity] = useState(clickedActivity)
 
@@ -22,12 +15,12 @@ function Activity({clickedActivity, getActivities, setSingleActivity}) {
         const activityId = currentActivity.activityid;
         Axios.post('https://vottron.herokuapp.com/activities/delete', {
             activityId,
-        }).then((res) => {
+        }).then(() => {
             getActivities(currentActivity.courseid)
             setSingleActivity(false)
             Axios.post('https://vottron.herokuapp.com/studentactivities/delete', {
                 activityId,
-            }).then((res) => {
+            }).then(() => {
                 getActivities(currentActivity.courseid)
                 setSingleActivity(false)
             })
@@ -75,27 +68,25 @@ function Activity({clickedActivity, getActivities, setSingleActivity}) {
                 item
                 
                 >
-                    <Button
+                    <IconButton
                     color="secondary"
                     variant="outlined"
                     onClick={() => deleteActivity()}
-                    startIcon={<Delete/>}
                     >
-                        Delete
-                    </Button>
+                        <Delete/>
+                    </IconButton>
                     <Box px={1} component="span"/>
                     <Button
                     color="primary"
-                    variant="contained"
+                    variant="outlined"
                     onClick={() => setEditActivity(true)}
-                    startIcon={<Edit/>}
                     >
                         Edit
                     </Button>
                 </Grid>
             </Grid>
             <Box pb={1}/>
-            <Box p={2}>
+            <Box>
                 <Grid
                 container
                 direction="column"

@@ -49,8 +49,8 @@ const Nav = ({history}) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h4" className={classes.title}>
-            Vottron
+          <Typography variant="h5" className={classes.title}>
+            Vottron Classroom
           </Typography>
             <div className="navLinks">
               {isMobile ? (
@@ -62,7 +62,7 @@ const Nav = ({history}) => {
                 aria-label="menu"
                 onClick={handleMenu}
               >
-                <MenuIcon />
+                <MenuIcon fontSize="large" />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -79,16 +79,18 @@ const Nav = ({history}) => {
                 open={open}
                 onClose={() => setAnchorEl(null)}
               >
+                <MenuItem onClick={() => handleMenuClick('/')}>Home</MenuItem>
                 <MenuItem onClick={() => handleMenuClick('/schedule')}>Schedule</MenuItem>
-                <MenuItem onClick={() => handleMenuClick('/courses')}>Courses</MenuItem>
+                <MenuItem onClick={() => handleMenuClick('/courses')}>Classes</MenuItem>
                 <MenuItem onClick={() => handleMenuClick('/students')}>Students</MenuItem>
               </Menu>
               </>)
               : (
                 <>
                 <ButtonGroup>
+                  <Button className={classes.navLink} variant="text" onClick={() => history.push('/')}>Home</Button>
                   <Button className={classes.navLink} variant="text" onClick={() => history.push('/schedule')}>Schedule</Button>
-                  <Button className={classes.navLink} variant="text" onClick={() => history.push('/courses')}>Courses</Button>
+                  <Button className={classes.navLink} variant="text" onClick={() => history.push('/courses')}>Classes</Button>
                   <Button className={classes.navLink} variant="text" onClick={() => history.push('/students')}>Students</Button>
                 </ButtonGroup>
                 </>
